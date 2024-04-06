@@ -21,6 +21,7 @@ function App() {
       <header className="App-header">
 
       <button onClick={() => setactive(true)}>button</button>
+      <button className="rounded-full m-2 p-2 text-white bg-gray-800" >Save Changes</button>
 
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
