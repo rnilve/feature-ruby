@@ -4,10 +4,10 @@ class EarthquakesController < ApplicationController
     # GET /earthquakes
     def index
         page = params[:page].to_i
-        page = 1 if page <= 0 # Si el número de página es menor o igual a cero, establecerlo en 1
+        page = 1 if page <= 0 
         
         per_page = params[:per_page].to_i
-        per_page = 10 if per_page <= 0 # Si el número de elementos por página es menor o igual a cero, establecerlo en 27
+        per_page = 10 if per_page <= 0 
         per_page = 10 if per_page >= 1000
         offset = (page - 1) * per_page
       
@@ -15,11 +15,9 @@ class EarthquakesController < ApplicationController
   
 
   if params[:mag_type].present?
-    # Si mag_type es un arreglo, utilizamos el método where con un arreglo de valores
     if params[:mag_type].is_a?(Array)
       earthquakes = earthquakes.where(magType: params[:mag_type])
     else
-      # Si mag_type es un solo valor, lo tratamos como tal
       earthquakes = earthquakes.where(magType: params[:mag_type])
     end
   end
@@ -35,8 +33,8 @@ class EarthquakesController < ApplicationController
         external_id: earthquake.code,
         magnitude: earthquake.mag,
         place: earthquake.place,
-        time: earthquake.created_at.to_s, # Suponiendo que `time` debe ser la fecha de creación del registro
-        tsunami: true, # Modificar según corresponda
+        time: earthquake.created_at.to_s,
+        tsunami: true, 
         mag_type: earthquake.magType,
         title: earthquake.title,
         coordinates: {
@@ -86,12 +84,10 @@ class EarthquakesController < ApplicationController
     end
   
     private
-      # Use callbacks to share common setup or constraints between actions.
       def set_earthquake
         @earthquake = Earthquake.find(params[:id])
       end
-  
-      # Only allow a trusted parameter "white list" through.
+
       def earthquake_params
         params.require(:earthquake).permit(:title, :url, :place, :mag, :magType, :longitude, :latitude)
       end
