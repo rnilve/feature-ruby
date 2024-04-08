@@ -51,8 +51,6 @@ export async function apiFetch<T>(props: ApiFetchT): Promise<T> {
     console.log(`\x1b[31m Error apiFetch: ${code || message || err} \x1b[0m`);
   
 
-   
-
     return {} as T;
   }
 }

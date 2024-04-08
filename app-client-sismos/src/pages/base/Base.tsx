@@ -1,5 +1,7 @@
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import Logo from "../../images/logo.png";
+import BaseIcon from "../../components/BaseIcon";
+import { mdiHome } from "@mdi/js";
 
 export function Base() {
   return (
@@ -26,12 +28,11 @@ export function Base() {
           <img src={Logo} alt="logo" className="w-32 h-12" />
           <ul className="space-y-2 font-medium pt-8">
             <li>
-              <a
-                href="/"
-                className="flex items-center p-2 text-gray-900 hover:rounded-lg border-b dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-              >
+            <Link to='/' className="flex items-center p-2 text-gray-900 hover:rounded-lg border-b dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                <BaseIcon path={mdiHome} className="mr-1" />
                 <span className="ms-3 text-lg font-semibold">Inicio</span>
-              </a>
+              </Link>
+           
             </li>
           </ul>
         </div>
