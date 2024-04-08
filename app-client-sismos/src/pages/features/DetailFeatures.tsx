@@ -43,7 +43,8 @@ export function DetailFeature({ data }: Props) {
           
           <div className="px-6 py-4 flex flex-col ">
             <div className="flex justify-between mt-auto">
-              <a href={item.links.external_url} className="bg-slate-600 text-white flex items-center px-2 py-1 rounded">
+              <a href={item.links.external_url} className="bg-slate-600 text-white flex items-center px-2 py-1 rounded"
+               target="_blank" rel="noreferrer">
                 <BaseIcon path={mdiEye} className="mr-1"/>
               </a>
               <a  href={`/info/${item.id}`} className="bg-slate-600 text-white flex items-center px-2 py-1 rounded">

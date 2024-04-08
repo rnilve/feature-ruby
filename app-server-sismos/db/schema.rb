@@ -10,7 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_06_014616) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_08_142634) do
+  create_table "comments", force: :cascade do |t|
+    t.integer "earthquake_id", null: false
+    t.string "body"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["earthquake_id"], name: "index_comments_on_earthquake_id"
+  end
+
   create_table "data", force: :cascade do |t|
     t.string "dataGeo"
     t.datetime "created_at", null: false
@@ -30,4 +38,5 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_06_014616) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "comments", "earthquakes"
 end

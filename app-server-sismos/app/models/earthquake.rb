@@ -4,5 +4,9 @@ class Earthquake < ApplicationRecord
   validates :latitude, inclusion: { in: -90.0..90.0 }
   validates :longitude, inclusion: { in: -180.0..180.0 }
   validates :code, uniqueness: true
+
+  has_many :comments
 end
+
+
 

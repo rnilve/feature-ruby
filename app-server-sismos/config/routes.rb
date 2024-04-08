@@ -1,13 +1,14 @@
 Rails.application.routes.draw do
-  resources :data
-  resources :earthquakes, only: [:index, :show, :create, :update, :destroy],  path: 'api/features'
+  namespace :api do
+    resources :earthquakes, only: [:index, :show, :create, :update, :destroy], path: 'features' do
+      resources :comments, only: [:create]
+    end
+    resources :data
+  end
 
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
+  # Endpoint para verificar la salud de la aplicación
   get "up" => "rails/health#show", as: :rails_health_check
 
-  # Defines the root path route ("/")
-  # root "posts#index"
+  # Ruta de raíz, si es necesario
+  # root "controller#action"
 end

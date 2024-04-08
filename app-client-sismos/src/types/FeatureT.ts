@@ -47,3 +47,10 @@ export type FeatureT = {
   };
   
   
+  export type CommentT = {
+    body: string;
+}
+
+export type CommentRequestT = {
+    comment: CommentT;
+}

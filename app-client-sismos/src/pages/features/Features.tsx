@@ -7,21 +7,31 @@ import { mdiChevronLeftBoxOutline, mdiChevronRightBoxOutline } from "@mdi/js";
 import { Loader } from "../../components/Loader";
 
 export function Feature() {
+  const zero = 0
+  const initialPage = 1;
+  const initialRegister = 10;
   const [features, setFeatures] = useState<FeatureT>();
-  const [currentPage, setCurrentPage] = useState(1);
-  const [perPage, setPerPage] = useState(10);
+  const [currentPage, setCurrentPage] = useState(initialPage);
+  const [totalNumberPage, setTotalNumberPage] = useState(zero);
+  const [perPage, setPerPage] = useState(initialRegister);
   const [isLoading, setIsloading] = useState(false);
+
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getFeatures(currentPage, perPage);
-      if (data.data && data.pagination) {
-        setFeatures(data);
+      const response = await getFeatures(currentPage, perPage);
+      if (response.data && response.pagination) {
+        setFeatures(response);
         setIsloading(true);
       }
     };
     fetchData();
   }, [currentPage, perPage]);
+
+  useEffect(() => {
+    const pages = Math.ceil(Number((features?.pagination.total || zero)) / Number(features?.pagination.per_page || zero));
+    setTotalNumberPage(pages)
+  }, [features])
 
   function handlePageChange(page: number) {
     setCurrentPage(page);
@@ -32,7 +42,8 @@ export function Feature() {
   }
 
   function handlePerPageChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const value = parseInt(e.target.value);
+    let value = parseInt(e.target.value);
+    value = isNaN(value) ? zero : value
     setPerPage(value);
   }
 
@@ -61,19 +72,19 @@ export function Feature() {
         </div>
       </main>
 
-      <footer className="fixed bottom-0  bg-gray-100 rounded py-2 ">
-      <div className="text-sm text-gray-800 ">
-    Showing{" "}
-    <span className=" p-2 font-bold text-gray-500">{features?.pagination.current_page}</span>
-    to
-    <span className="font-bold p-2 text-gray-500">
-  {Math.ceil(Number(features?.pagination.total) / Number(features?.pagination.per_page))}
-</span>{" "}
-    of
-    <span className="font-bold p-2 text-gray-500">{features?.pagination.total}</span>{" "}
-    Entries
-  </div>
-        <div className="container flex justify-end items-start">
+      <footer className="fixed bottom-0  bg-gray-100 rounded p-4 ">
+        <div className="text-sm text-gray-800 ">
+          Showing{" "}
+          <span className=" p-2 font-bold text-gray-500">{features?.pagination.current_page}</span>
+          to
+          <span className="font-bold p-2 text-gray-500">
+            {totalNumberPage}
+          </span>{" "}
+          of
+          <span className="font-bold p-2 text-gray-500">{features?.pagination.total}</span>{" "}
+          Entries
+        </div>
+        <div className="container flex justify-center pt-2 items-start">
           <Button
             type="button"
             label=""
@@ -93,6 +104,7 @@ export function Feature() {
           <Button
             type="button"
             label=""
+            disabled={currentPage >= totalNumberPage}
             onClick={() => handlePageChange(currentPage + 1)}
             icon={mdiChevronRightBoxOutline}
             color={"gray"}

@@ -16,7 +16,6 @@ type ApiFetchResponseT = {
   data: unknown;
 };
 
-const OK = 'BE000';
 
 function codeWarning(code: string): boolean {
   const warning = ['BE1'];
@@ -42,7 +41,6 @@ export async function apiFetch<T>(props: ApiFetchT): Promise<T> {
    
   } catch (err: unknown) {
     const { code, message } = err as { code: string; message: string };
-    // TODO: code BE002 redirect to login
 
     if (code && codeWarning(code)) {
       if (!isValidate) return {} as T;
@@ -50,7 +48,6 @@ export async function apiFetch<T>(props: ApiFetchT): Promise<T> {
       return {} as T;
     }
 
-    // eslint-disable-next-line no-console
     console.log(`\x1b[31m Error apiFetch: ${code || message || err} \x1b[0m`);
   
 
