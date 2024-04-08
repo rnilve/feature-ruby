@@ -1,4 +1,17 @@
 export type FeatureT = {
+   data:dataT[]
+   pagination:PaginationT
+  };
+
+  export type PaginationT={
+
+      current_page: number;
+      total: number;
+      per_page: number;
+    
+  }
+
+  export type dataT={
     id: number;
     type: string;
     attributes: {
@@ -12,15 +25,25 @@ export type FeatureT = {
       coordinates: {
         longitude: number;
         latitude: number;
-      };
-      links: {
-        external_url: string;
-      };
+      };  
     };
-    pagination: {
-      current_page: number;
-      total: number;
-      per_page: number;
+    links: {
+      external_url: string;
     };
+  }
+
+  export type EarthquakeDataT= {
+    id: number;
+    title: string;
+    url: string;
+    code: string;
+    place: string;
+    mag: number;
+    magType: string;
+    longitude: number;
+    latitude: number;
+    created_at: string;
+    updated_at: string;
   };
+  
   

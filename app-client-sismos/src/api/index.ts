@@ -25,7 +25,6 @@ function codeWarning(code: string): boolean {
 
 export async function apiFetch<T>(props: ApiFetchT): Promise<T> {
   const { method, url, headers, body, isValidate = true } = props;
-
   try {
 
 
@@ -39,7 +38,7 @@ export async function apiFetch<T>(props: ApiFetchT): Promise<T> {
     });
 
     const data = (await response.json()) as ApiFetchResponseT;
-    return data.data as T;
+    return data as T;
    
   } catch (err: unknown) {
     const { code, message } = err as { code: string; message: string };
