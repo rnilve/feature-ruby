@@ -5,31 +5,34 @@ import { FeatureT } from "../../types/FeatureT";
 import { Button } from "../../components/Button";
 import { mdiChevronLeftBoxOutline, mdiChevronRightBoxOutline } from "@mdi/js";
 import { Loader } from "../../components/Loader";
+import { EMPTYSTRING, ZERO } from "../../utils/Constants";
 
 export function Feature() {
-  const zero = 0
-  const initialPage = 1;
-  const initialRegister = 10;
+
+  const INITIALPAGE = 1;
+  const INITIALREGISTER = 10;
+
   const [features, setFeatures] = useState<FeatureT>();
-  const [currentPage, setCurrentPage] = useState(initialPage);
-  const [totalNumberPage, setTotalNumberPage] = useState(zero);
-  const [perPage, setPerPage] = useState(initialRegister);
+  const [currentPage, setCurrentPage] = useState(INITIALPAGE);
+  const [totalNumberPage, setTotalNumberPage] = useState(ZERO);
+  const [perPage, setPerPage] = useState(INITIALREGISTER);
   const [isLoading, setIsloading] = useState(false);
+  const [factorSearch,setFactorSearch] = useState<string[]>([])
 
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await getFeatures(currentPage, perPage);
+      const response = await getFeatures(currentPage, perPage,factorSearch);
       if (response.data && response.pagination) {
         setFeatures(response);
         setIsloading(true);
       }
     };
     fetchData();
-  }, [currentPage, perPage]);
+  }, [currentPage, perPage,factorSearch]);
 
   useEffect(() => {
-    const pages = Math.ceil(Number((features?.pagination.total || zero)) / Number(features?.pagination.per_page || zero));
+    const pages = Math.ceil(Number((features?.pagination.total || ZERO)) / Number(features?.pagination.per_page || ZERO));
     setTotalNumberPage(pages)
   }, [features])
 
@@ -43,8 +46,19 @@ export function Feature() {
 
   function handlePerPageChange(e: React.ChangeEvent<HTMLInputElement>) {
     let value = parseInt(e.target.value);
-    value = isNaN(value) ? zero : value
+    value = isNaN(value) ? ZERO : value
     setPerPage(value);
+  }
+
+  function handleSearchChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const value = e.target.value;
+    if(value != EMPTYSTRING){
+      const magTypesArray = value.split(',').map(type => type.trim());
+      setFactorSearch(magTypesArray);
+    }else{
+      setFactorSearch([])
+    }
+
   }
 
   return (
@@ -60,6 +74,8 @@ export function Feature() {
               type="text"
               className="ml-2 border border-gray-400 px-2 py-1 rounded-md"
               placeholder="Escribe aquí..."
+              value={factorSearch}
+              onChange={handleSearchChange}
             />
           </div>
         </div>
